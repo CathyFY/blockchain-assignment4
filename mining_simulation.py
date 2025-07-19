@@ -40,7 +40,7 @@ def Simulate(alpha,gamma,N, seed):
                 #The selfish miners found a new block.
                 #Write a piece of code to change the required variables.
                 #You might need to define new variable to keep track of the number of hidden blocks.
-                hidden_blocks += 1
+                hidden_blocks = 2
                 state = 2
             else:
                 #Write a piece of code to change the required variables.
@@ -69,15 +69,15 @@ def Simulate(alpha,gamma,N, seed):
         elif state==2:
             #The selfish pool has 2 hidden block.
             if r<=alpha:
-                hidden_blocks += 1
+                hidden_blocks = 3
                 state = 3
 
             else:
                 #The honest miners found a block.
-                SelfishRevenue += 1
-                ChainLength += 1
-                hidden_blocks -= 1
-                state = 1    
+                SelfishRevenue += 2  
+                ChainLength += 2
+                state = 0
+                hidden_blocks = 0   
 
         elif state>2:
             if r<=alpha:
