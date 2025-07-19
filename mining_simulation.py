@@ -25,7 +25,7 @@ def Simulate(alpha,gamma,N, seed):
                 #The selfish pool mines a block.
                 #They don't publish it. 
                 state=1
-                hidden = 1
+                hidden_blocks = 1
 
             else:
                 #The honest miners found a block.
