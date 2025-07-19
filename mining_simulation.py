@@ -60,7 +60,7 @@ def Simulate(alpha,gamma,N, seed):
             else:
                 SelfishRevenue += 0
             
-            ChainLength += 2
+            ChainLength += 1
             state = 0
             hidden_blocks = 0
 
