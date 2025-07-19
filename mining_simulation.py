@@ -43,6 +43,7 @@ def Simulate(alpha,gamma,N, seed):
                 state = 2
             else:
                 #Write a piece of code to change the required variables.
+                ChainLength += 1
                 state = -1
 
 
