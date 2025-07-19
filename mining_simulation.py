@@ -90,6 +90,12 @@ def Simulate(alpha,gamma,N, seed):
                 hidden_blocks -= 1
                 state -= 1
 
+    if hidden_blocks == 1:
+        ChainLength += 1
+    elif hidden_blocks >= 2:
+        SelfishRevenue += hidden_blocks - 1
+        ChainLength += hidden_blocks
+
     return float(SelfishRevenue)/ChainLength
 
 
