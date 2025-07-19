@@ -43,15 +43,8 @@ def Simulate(alpha,gamma,N, seed):
                 state = 2
             else:
                 #Write a piece of code to change the required variables.
-                if gamma < 0.5:
-                    SelfishRevenue += 0
-                elif gamma == 0.5:
-                    SelfishRevenue += 1
-                else:
-                    SelfishRevenue += 2
-                ChainLength += 2
-                state = 0
-                hidden_blocks = 0
+                state = -1
+
 
         elif state==-1:
             #It's the state 0' in the slides (the paper of Eyal and Gun Sirer)
@@ -79,8 +72,10 @@ def Simulate(alpha,gamma,N, seed):
 
             else:
                 #The honest miners found a block.
-                state = -1
+                SelfishRevenue += 1
+                ChainLength += 1
                 hidden_blocks -= 1
+                state = 1
 
         elif state>2:
             if r<=alpha:
