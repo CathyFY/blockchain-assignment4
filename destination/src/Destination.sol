@@ -35,7 +35,6 @@ contract Destination is AccessControl {
         require(underlying != address(0), "Not a valid wrapped token");
 
     		BridgeToken(_wrapped_token).burnFrom(msg.sender, _amount);
-
     		emit Unwrap(underlying, _wrapped_token, msg.sender, _recipient, _amount);
 	}
 
@@ -44,6 +43,8 @@ contract Destination is AccessControl {
 
         BridgeToken token = new BridgeToken(_underlying_token, name, symbol, address(this));
         address wrapped = address(token);
+
+				token.grantRole(token.MINTER_ROLE(), address(this));
 
         underlying_tokens[_underlying_token] = wrapped;
         wrapped_tokens[wrapped] = _underlying_token;
