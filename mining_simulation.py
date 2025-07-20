@@ -33,6 +33,7 @@ def Simulate(alpha,gamma,N, seed):
                 # and the selfish miners found 0 block.
                 ChainLength+=1
                 state = 0
+                hidden_blocks = 0
 
 
         elif state==1:
@@ -41,11 +42,10 @@ def Simulate(alpha,gamma,N, seed):
                 #The selfish miners found a new block.
                 #Write a piece of code to change the required variables.
                 #You might need to define new variable to keep track of the number of hidden blocks.
-                hidden_blocks = 2
+                hidden_blocks += 1
                 state = 2
             else:
                 #Write a piece of code to change the required variables.
-                ChainLength += 1
                 state = -1
 
 
@@ -54,11 +54,10 @@ def Simulate(alpha,gamma,N, seed):
             #There are three situations! 
             #Write a piece of code to change the required variables in each one.
             if r<=alpha:
-                SelfishRevenue += 1
-
+                SelfishRevenue += 2
 
             elif r<=alpha+(1-alpha)*gamma:
-                SelfishRevenue += 0.5
+                SelfishRevenue += 1
 
             else:
                 SelfishRevenue += 0
@@ -71,15 +70,15 @@ def Simulate(alpha,gamma,N, seed):
         elif state==2:
             #The selfish pool has 2 hidden block.
             if r<=alpha:
-                hidden_blocks = 3
-                state = 3
+                hidden_blocks += 1
+                state += 1
 
             else:
                 #The honest miners found a block.
-                SelfishRevenue += 1  
                 ChainLength += 2
+                SelfishRevenue += 2
+                hidden_blocks = 0
                 state = 0
-                hidden_blocks = 0   
 
         elif state>2:
             if r<=alpha:
@@ -89,10 +88,10 @@ def Simulate(alpha,gamma,N, seed):
 
             else:
                 #The honest miners found a block
-                SelfishRevenue += hidden_blocks - 1
-                ChainLength += hidden_blocks + 1
-                hidden_blocks = 0
-                state = 0
+                SelfishRevenue += 1
+                ChainLength += 1
+                hidden_blocks -= 1
+                state -= 1
 
     return float(SelfishRevenue)/ChainLength
 
@@ -102,7 +101,7 @@ def Simulate(alpha,gamma,N, seed):
   DON'T include it in your final submission though.
 """
 
-"""
+
 #let's run the code with the follwing parameters!
 alpha=0.35
 gamma=0.5
@@ -111,4 +110,3 @@ seed = 100
 #This is the theoretical probability computed in the original paper
 print("Theoretical probability :",(alpha*(1-alpha)**2*(4*alpha+gamma*(1-2*alpha))-alpha**3)/(1-alpha*(1+(2-alpha)*alpha)))
 print("Simulated probability :",Simulate(alpha,gamma,Nsimu, seed))
-"""
