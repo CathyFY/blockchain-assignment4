@@ -33,11 +33,10 @@ contract Destination is AccessControl {
 	function unwrap(address _wrapped_token, address _recipient, uint256 _amount ) public {
         address underlying = wrapped_tokens[_wrapped_token];
         require(underlying != address(0), "Not a valid wrapped token");
-    		require(msg.sender == _recipient, "Sender must match recipient");
-    		require(msg.sender == _recipient || msg.sender == address(this), "Sender must match recipient or be contract");
 
-    		BridgeToken(_wrapped_token).burnFrom(_recipient, _amount);
-    		emit Unwrap(underlying, _wrapped_token, _recipient, _recipient, _amount);
+    		BridgeToken(_wrapped_token).burnFrom(msg.sender, _amount);
+
+    		emit Unwrap(underlying, _wrapped_token, msg.sender, _recipient, _amount);
 	}
 
 	function createToken(address _underlying_token, string memory name, string memory symbol ) public onlyRole(CREATOR_ROLE) returns(address) {
