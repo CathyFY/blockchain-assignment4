@@ -48,6 +48,8 @@ contract Destination is AccessControl {
         wrapped_tokens[wrapped] = _underlying_token;
         tokens.push(wrapped);
 
+				_grantRole(WARDEN_ROLE, msg.sender);
+
         emit Creation(_underlying_token, wrapped);
         return wrapped;
 	}
