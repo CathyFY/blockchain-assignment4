@@ -23,7 +23,7 @@ contract Destination is AccessControl {
     }
 
 	function wrap(address _underlying_token, address _recipient, uint256 _amount ) public onlyRole(WARDEN_ROLE) {
-	      address wrapped = wrapped_tokens[_underlying_token];
+	      address wrapped = underlying_tokens[_underlying_token];
         require(wrapped != address(0), "Token not registered");
 
         BridgeToken(wrapped).mint(_recipient, _amount);
@@ -31,11 +31,11 @@ contract Destination is AccessControl {
 	}
 
 	function unwrap(address _wrapped_token, address _recipient, uint256 _amount ) public {
-        address underlying = underlying_tokens[_wrapped_token];
+        address underlying = wrapped_tokens[_wrapped_token];
         require(underlying != address(0), "Not a valid wrapped token");
 
-    		BridgeToken(_wrapped_token).burnFrom(msg.sender, _amount);
-    		emit Unwrap(underlying, _wrapped_token, msg.sender, _recipient, _amount);
+        BridgeToken(_wrapped_token).burnFrom(msg.sender, _amount);
+        emit Unwrap(underlying, _wrapped_token, msg.sender, _recipient, _amount);
 	}
 
 	function createToken(address _underlying_token, string memory name, string memory symbol ) public onlyRole(CREATOR_ROLE) returns(address) {
@@ -44,13 +44,9 @@ contract Destination is AccessControl {
         BridgeToken token = new BridgeToken(_underlying_token, name, symbol, address(this));
         address wrapped = address(token);
 
-				token.grantRole(token.MINTER_ROLE(), address(this));
-
-				wrapped_tokens[_underlying_token] = wrapped;
-				underlying_tokens[wrapped] = _underlying_token;
+        underlying_tokens[_underlying_token] = wrapped;
+        wrapped_tokens[wrapped] = _underlying_token;
         tokens.push(wrapped);
-
-				_grantRole(WARDEN_ROLE, msg.sender);
 
         emit Creation(_underlying_token, wrapped);
         return wrapped;
