@@ -44,6 +44,7 @@ def Simulate(alpha,gamma,N, seed):
                 state = 2
             else:
                 #Write a piece of code to change the required variables.
+                ChainLength += 1
                 state = -1
 
 
@@ -61,7 +62,7 @@ def Simulate(alpha,gamma,N, seed):
             else:
                 SelfishRevenue += 0
             
-            ChainLength += 1
+            ChainLength += 2
             state = 0
             hidden_blocks = 0
 
