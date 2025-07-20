@@ -32,6 +32,7 @@ def Simulate(alpha,gamma,N, seed):
                 #The round is finished : the honest miners found 1 block
                 # and the selfish miners found 0 block.
                 ChainLength+=1
+                state = 0
 
 
         elif state==1:
@@ -53,11 +54,11 @@ def Simulate(alpha,gamma,N, seed):
             #There are three situations! 
             #Write a piece of code to change the required variables in each one.
             if r<=alpha:
-                SelfishRevenue += 2
+                SelfishRevenue += 1
 
 
             elif r<=alpha+(1-alpha)*gamma:
-                SelfishRevenue += 1
+                SelfishRevenue += 0.5
 
             else:
                 SelfishRevenue += 0
@@ -75,7 +76,7 @@ def Simulate(alpha,gamma,N, seed):
 
             else:
                 #The honest miners found a block.
-                SelfishRevenue += 2  
+                SelfishRevenue += 1  
                 ChainLength += 2
                 state = 0
                 hidden_blocks = 0   
