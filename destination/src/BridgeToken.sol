@@ -24,16 +24,15 @@ contract BridgeToken is ERC20, ERC20Burnable, AccessControl {
     }
 
     function burnFrom(address account, uint256 amount) public override {
-		// /*
-		//    Override OpenZeppelin's burnFrom function to allow the MINTER_ROLE to burn without an allowance
-		// */
-		// if( ! hasRole(MINTER_ROLE,msg.sender) ) {
-		// 	_spendAllowance(account, _msgSender(), amount);
-		// }
-    //     _burn(account, amount);
-    // }
-        require(hasRole(MINTER_ROLE, msg.sender) || msg.sender == account, "Not authorized");
+		/*
+		   Override OpenZeppelin's burnFrom function to allow the MINTER_ROLE to burn without an allowance
+		*/
+		if( ! hasRole(MINTER_ROLE,msg.sender) ) {
+			_spendAllowance(account, _msgSender(), amount);
+		}
         _burn(account, amount);
+    }
+
 }
 
 
